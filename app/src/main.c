@@ -4,7 +4,11 @@
 #include "gpio.h"
 
 /* Register with logger module */
-LOG_MODULE_REGISTER(main, LOG_LEVEL_DBG);
+#ifdef CONFIG_DBG_PRINT
+    LOG_MODULE_REGISTER(main, LOG_LEVEL_DBG);
+#else
+    LOG_MODULE_REGISTER(main, LOG_LEVEL_INF);
+#endif
 
 /* Main routine */
 int main(void) {

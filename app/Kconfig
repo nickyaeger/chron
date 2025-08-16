@@ -1,0 +1,5 @@
+source "Kconfig.zephyr"
+
+config DBG_PRINT
+	bool "Enable debug printouts"
+	default n

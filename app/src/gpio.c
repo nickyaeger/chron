@@ -31,7 +31,11 @@ static const struct gpio_dt_spec led2 = GPIO_DT_SPEC_GET(LED2_NODE, gpios);
 static const struct gpio_dt_spec led3 = GPIO_DT_SPEC_GET(LED3_NODE, gpios);
 
 /* Register with logger module */
-LOG_MODULE_REGISTER(gpio, LOG_LEVEL_DBG);
+#ifdef CONFIG_DBG_PRINT
+    LOG_MODULE_REGISTER(gpio, LOG_LEVEL_DBG);
+#else
+    LOG_MODULE_REGISTER(gpio, LOG_LEVEL_INF);
+#endif
 
 /* Button 0 callback function */
 void button0_pressed(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
