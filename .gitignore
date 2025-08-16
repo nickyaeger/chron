@@ -1,0 +1,15 @@
+*.o
+*.a
+*.d
+*.cmd
+*.log
+*.pyc
+*.swp
+*.swo
+*~
+build*/
+!doc/guides/build
+!tests/drivers/build_all
+cscope.*
+.dir
+.vscode/
