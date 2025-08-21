@@ -10,3 +10,4 @@ project(nrf_connect_sdk_fundamentals)
 
 target_sources(app PRIVATE src/main.c)
 target_sources(app PRIVATE src/gpio.c)
+target_sources(app PRIVATE src/page.c)

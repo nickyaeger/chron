@@ -14,5 +14,6 @@
 int main(void) {
     LOG_INF("Starting main routine");
     gpio_init();
+    ui_init();
     return 0;
 }

@@ -4,6 +4,8 @@
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/logging/log.h>
 
+#include "page.h"
+
 /* GPIO device structures for buttons */
 #define SW0_NODE DT_ALIAS(sw0)
 static const struct gpio_dt_spec button0 = GPIO_DT_SPEC_GET(SW0_NODE, gpios);
@@ -40,29 +42,45 @@ static const struct gpio_dt_spec led3 = GPIO_DT_SPEC_GET(LED3_NODE, gpios);
 /* Button 0 callback function */
 void button0_pressed(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
+	int ret;
 	gpio_pin_toggle_dt(&led0);
 	LOG_DBG("Button 0 pressed");
+	if ((ret = k_work_submit_to_queue(&ui_workq, &button0_work)) < 0) {
+		LOG_ERR("Failed to submit button 0 press to queue (err %d)", ret);
+	}
 }
 
 /* Button 1 callback function */
 void button1_pressed(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
+	int ret;
 	gpio_pin_toggle_dt(&led1);
 	LOG_DBG("Button 1 pressed");
+	if ((ret = k_work_submit_to_queue(&ui_workq, &button1_work)) < 0) {
+		LOG_ERR("Failed to submit button 0 press to queue (err %d)", ret);
+	}
 }
 
 /* Button 2 callback function */
 void button2_pressed(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
+	int ret;
 	gpio_pin_toggle_dt(&led2);
 	LOG_DBG("Button 2 pressed");
+	if ((ret = k_work_submit_to_queue(&ui_workq, &button2_work)) < 0) {
+		LOG_ERR("Failed to submit button 0 press to queue (err %d)", ret);
+	}
 }
 
 /* Button 3 callback function */
 void button3_pressed(const struct device *dev, struct gpio_callback *cb, uint32_t pins)
 {
+	int ret;
 	gpio_pin_toggle_dt(&led3);
 	LOG_DBG("Button 3 pressed");
+	if ((ret = k_work_submit_to_queue(&ui_workq, &button3_work)) < 0) {
+		LOG_ERR("Failed to submit button 0 press to queue (err %d)", ret);
+	}
 }
 
 /* Define a variable of type static struct gpio_callback */
