@@ -217,5 +217,6 @@ int gpio_init(void)
 	gpio_add_callback(button2.port, &button2_cb_data);
 	gpio_add_callback(button3.port, &button3_cb_data);
 
+	LOG_INF("GPIO successfully initialized");
 	return ret;
 }

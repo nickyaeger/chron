@@ -1,7 +1,9 @@
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/drivers/gpio.h>
+
 #include "gpio.h"
+#include "page.h"
 
 /* Register with logger module */
 #ifdef CONFIG_DBG_PRINT
