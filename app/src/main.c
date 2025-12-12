@@ -3,6 +3,7 @@
 #include <zephyr/drivers/gpio.h>
 
 #include "gpio.h"
+#include "imu.h"
 #include "page.h"
 
 /* Register with logger module */
@@ -17,5 +18,6 @@ int main(void) {
     LOG_INF("Starting main routine");
     gpio_init();
     ui_init();
+    imu_init();
     return 0;
 }

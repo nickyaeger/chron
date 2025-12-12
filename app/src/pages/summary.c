@@ -28,7 +28,13 @@ static int selected_view = SETTINGS_VIEW;
 #endif
 
 static void on_enter(void) {
-    LOG_DBG("Current page: SUMMARY[%d]", selected_view);
+    switch (selected_view) {
+        case SETTINGS_VIEW:
+            LOG_DBG("Current page: SETTINGS_VIEW");
+            break;
+        case ACTIVITY_VIEW:
+            LOG_DBG("Current page: ACTIVITY_VIEW");
+    }
 }
 
 void set_carousel_view(carousel_view_t view) {
@@ -44,6 +50,7 @@ static void summary_input(ui_button_t button) {
                 break;
             }
             selected_view = (selected_view - 1) % NUM_VIEWS;
+            on_enter();
             break;
         case BTN_NEXT:
             if (selected_view == ACTIVITY_VIEW) {
@@ -51,6 +58,7 @@ static void summary_input(ui_button_t button) {
                 break;
             }
             selected_view = (selected_view + 1) % NUM_VIEWS;
+            on_enter();
             break;
         case BTN_BACK:
             ui_pop();

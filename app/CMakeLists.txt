@@ -10,6 +10,7 @@ project(chron)
 
 target_sources(app PRIVATE src/main.c)
 target_sources(app PRIVATE src/gpio.c)
+target_sources(app PRIVATE src/imu.c)
 target_sources(app PRIVATE src/page.c)
 target_sources(app PRIVATE src/pages/home.c)
 target_sources(app PRIVATE src/pages/summary.c)

@@ -106,7 +106,7 @@ int ui_init(void) {
 
 /* Button input handler */
 static int ui_handle_input(ui_button_t button) {
-    LOG_DBG("UI workqueue received button %d press", button);
+    //LOG_DBG("UI workqueue received button %d press", button);
     ui_stack[ui_stack_top]->handle_input(button);
     return 0;
 }
