@@ -50,7 +50,7 @@ int imu_init(void) {
         LOG_ERR("Could not read device ID (err %d)", ret);
         return -1;
     }
-    LOG_DBG("Device ID: %x", id);
+
     if (id != DEVICE_ID) {
         LOG_ERR("Could not verify device ID");
         return -1;

@@ -5,6 +5,7 @@
 #include "gpio.h"
 #include "imu.h"
 #include "page.h"
+#include "temp_sensor.h"
 
 /* Register with logger module */
 #ifdef CONFIG_DBG_PRINT
@@ -19,5 +20,9 @@ int main(void) {
     gpio_init();
     ui_init();
     imu_init();
+    temp_sensor_init();
+    temp_get(true);
+    temp_get(false);
+    pressure_get();
     return 0;
 }

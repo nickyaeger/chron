@@ -36,7 +36,7 @@
 		reg = <0x6a>;
 	};
 
-	temp@77 {
+	temp_sense: bme280@77 {
 		compatible = "bosch,bme280";
 		reg = <0x77>;
 	};
