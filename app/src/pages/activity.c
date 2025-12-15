@@ -12,12 +12,12 @@
 #define STACKSIZE 1024
 #define STEP_COUNTER_PRIORITY 7
 
-/* Settings page functions */
+/* Activity page functions */
 static void on_enter(void);
 static void on_exit(void);
 static void activity_input(ui_button_t button);
 
-/* Settings page threads */
+/* Activity page threads */
 static void step_counter(void);
 K_THREAD_DEFINE(step_counter_id, STACKSIZE, step_counter, NULL, NULL, NULL, STEP_COUNTER_PRIORITY, 0, SYS_FOREVER_MS);
 

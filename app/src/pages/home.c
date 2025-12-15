@@ -28,7 +28,7 @@ static void on_enter(void) {
 static void home_input(ui_button_t button) {
     switch (button) {
         case BTN_PREV:
-            set_carousel_view(ACTIVITY_VIEW);
+            set_carousel_view(CLIMATE_VIEW);
             ui_push(&summary);
             break;
         case BTN_NEXT:

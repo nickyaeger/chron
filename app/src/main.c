@@ -21,8 +21,5 @@ int main(void) {
     ui_init();
     imu_init();
     temp_sensor_init();
-    temp_get(true);
-    temp_get(false);
-    pressure_get();
     return 0;
 }

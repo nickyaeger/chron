@@ -216,12 +216,9 @@ double temp_get(bool in_C) {
     double cTemp = (double)((float)comp_temp / 100.0f);
 	double fTemp = cTemp * 1.8 + 32;
 
-	// Print reading to console
     if (in_C) {
-        LOG_INF("Temperature in Celsius: %8.2f C", cTemp);
         return cTemp;
     } else {
-        LOG_INF("Temperature in Fahrenheit: %8.2f F", fTemp);
         return fTemp;
     }
 }
@@ -241,9 +238,6 @@ double pressure_get(void) {
 
     int32_t comp_press = bme280_compensate_press(adc_press);
     double pressure = (double)(comp_press >> 8) / (double)1000;
-
-	// Print reading to console
-    LOG_INF("Pressure in Kilopascal: %8.2f kPa", pressure);
     return pressure;
 }
 

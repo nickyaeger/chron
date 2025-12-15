@@ -5,6 +5,7 @@ extern ui_page_t summary;
 typedef enum {
     SETTINGS_VIEW,
     ACTIVITY_VIEW,
+    CLIMATE_VIEW,
 } carousel_view_t;
 
 /**

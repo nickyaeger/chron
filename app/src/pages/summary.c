@@ -6,6 +6,7 @@
 #include "home.h"
 #include "settings.h"
 #include "activity.h"
+#include "climate.h"
 
 /* Summary page functions */
 static void on_enter(void);
@@ -18,7 +19,7 @@ ui_page_t summary = { .on_enter = on_enter, .on_exit = NULL, .handle_input = sum
 /* Currently selected preview in carousel */
 static int selected_view = SETTINGS_VIEW;
 /* Number of previews */
-#define NUM_VIEWS 2
+#define NUM_VIEWS 3
 
 /* Register with logger module */
 #ifdef CONFIG_DBG_PRINT
@@ -34,6 +35,10 @@ static void on_enter(void) {
             break;
         case ACTIVITY_VIEW:
             LOG_DBG("Current page: ACTIVITY_VIEW");
+            break;
+        case CLIMATE_VIEW:
+            LOG_DBG("Current page: CLIMATE_VIEW");
+            break;
     }
 }
 
@@ -53,7 +58,7 @@ static void summary_input(ui_button_t button) {
             on_enter();
             break;
         case BTN_NEXT:
-            if (selected_view == ACTIVITY_VIEW) {
+            if (selected_view == CLIMATE_VIEW) {
                 ui_pop();
                 break;
             }
@@ -70,6 +75,9 @@ static void summary_input(ui_button_t button) {
                     break;
                 case ACTIVITY_VIEW:
                     ui_push(&activity);
+                    break;
+                case CLIMATE_VIEW:
+                    ui_push(&climate);
                     break;
                 default:
                     break;
