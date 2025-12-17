@@ -109,6 +109,40 @@ static uint32_t bme280_compensate_press(int32_t adc_press) {
     return (uint32_t)p;
 }
 
+/* Compensate current pressure using previously stored sensor calibration data */
+static uint32_t bme280_compensate_hum(int32_t adc_hum) {
+    uint8_t temp_val[3] = {0};
+    int ret = i2c_burst_read_dt(&dev_i2c, TEMPMSB, temp_val, 3);
+
+    if (ret != 0) {
+        LOG_ERR("Could not read temperature");
+        return -1;
+    }
+
+    int32_t adc_temp = (temp_val[0] << 12) | 
+                       (temp_val[1] << 4) | 
+                       ((temp_val[2] >> 4) & 0x0F);
+
+    int32_t varA, varB;
+    varA = ((((adc_temp >> 3) - ((int32_t)data.dig_t1 << 1))) * ((int32_t)data.dig_t2)) >> 11;
+    varB = (((((adc_temp >> 4) - ((int32_t)data.dig_t1)) * ((adc_temp >> 4) - ((int32_t)data.dig_t1)))
+    >> 12) * ((int32_t)data.dig_t3)) >> 14;
+    int32_t t_fine = varA + varB;
+    
+    int32_t v_x1_u32r;
+    v_x1_u32r = (t_fine - ((int32_t)76800));
+    v_x1_u32r = (((((adc_hum << 14) - (((int32_t)data.dig_h4) << 20) - (((int32_t)data.dig_h5) *
+    v_x1_u32r)) + ((int32_t)16384)) >> 15) * (((((((v_x1_u32r *
+    ((int32_t)data.dig_h6)) >> 10) * (((v_x1_u32r * ((int32_t)data.dig_h3)) >> 11) +
+    ((int32_t)32768))) >> 10) + ((int32_t)2097152)) * ((int32_t)data.dig_h2) +
+    8192) >> 14));
+    v_x1_u32r = (v_x1_u32r - (((((v_x1_u32r >> 15) * (v_x1_u32r >> 15)) >> 7) *
+    ((int32_t)data.dig_h1)) >> 4));
+    v_x1_u32r = (v_x1_u32r < 0 ? 0 : v_x1_u32r);
+    v_x1_u32r = (v_x1_u32r > 419430400 ? 419430400 : v_x1_u32r);
+    return (uint32_t)(v_x1_u32r >> 12);
+}
+
 int temp_sensor_init(void) {
     if (!i2c_is_ready_dt(&dev_i2c)) {
         LOG_ERR("Temp sensor is not ready");
@@ -178,12 +212,23 @@ int temp_sensor_init(void) {
         return -1;
     }
 
+    for (int i = 0; i < 8; i++) {
+        LOG_INF("h_values[%d] = %x", i, h_values[i]);
+    }
+
     data.dig_h1 = (uint16_t)h_values[0];
     data.dig_h2 = ((uint16_t)h_values[2]) << 8 | h_values[1];
     data.dig_h3 = (uint16_t)h_values[3];
     data.dig_h4 = ((uint16_t)h_values[4]) << 4 | (h_values[5] & 0x0F);
     data.dig_h5 = ((uint16_t)h_values[6]) << 4 | ((h_values[5] >> 4) & 0x0F);
     data.dig_h6 = (uint8_t)h_values[7];
+
+    LOG_INF("data.dig_h1 = %x", data.dig_h1);
+    LOG_INF("data.dig_h2 = %x", data.dig_h2);
+    LOG_INF("data.dig_h3 = %x", data.dig_h3);
+    LOG_INF("data.dig_h4 = %x", data.dig_h4);
+    LOG_INF("data.dig_h5 = %x", data.dig_h5);
+    LOG_INF("data.dig_h6 = %x", data.dig_h6);
 
     /* Configure sensor */
     uint8_t sensor_config[] = {CTRLMEAS, CONFIG_VALUE};
@@ -224,7 +269,7 @@ double temp_get(bool in_C) {
 }
 
 double pressure_get(void) {
-    uint8_t press_val[2] = {0};
+    uint8_t press_val[3] = {0};
     int ret = i2c_burst_read_dt(&dev_i2c, PRESSMSB, press_val, 3);
 
     if (ret != 0) {
@@ -242,5 +287,17 @@ double pressure_get(void) {
 }
 
 double humidity_get(void) {
-    return 0;
+    uint8_t hum_val[2] = {0};
+    int ret = i2c_burst_read_dt(&dev_i2c, HUMMSB, hum_val, 2);
+
+    if (ret != 0) {
+        LOG_ERR("Could not read humidity");
+        return -1;
+    }
+
+    int32_t adc_hum = (hum_val[0] << 8) | hum_val[1];
+
+    int32_t comp_hum = bme280_compensate_hum(adc_hum);
+    double humidity = (double)comp_hum / (double)1024;
+    return humidity;
 }

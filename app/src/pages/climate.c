@@ -67,6 +67,8 @@ static void read_tph(void) {
         LOG_INF("Temperature: %8.2f C", temp);
         double pressure = pressure_get();
         LOG_INF("Pressure: %8.2f kPa", pressure);
+        double humidity = humidity_get();
+        LOG_INF("Humidity: %8.2f %%", humidity);
         k_msleep(1000);
     }
 }
