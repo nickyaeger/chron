@@ -7,15 +7,15 @@
 
 #include "imu.h"
 
-#define I2C_ADDRESS 0x6A
-#define DEVICE_ID 0x6C
-#define WHO_AM_I 0x0F
-#define EMB_FUNC_ENABLE 0x01
-#define ACCEL_ENABLE 0x10
+#define I2C_ADDRESS      0x6A
+#define DEVICE_ID        0x6C
+#define WHO_AM_I         0x0F
+#define EMB_FUNC_ENABLE  0x01
+#define ACCEL_ENABLE     0x10
 #define PEDOMETER_ENABLE 0x04
-#define PEDOMETER_INIT 0x66
-#define STEPS_COUNT 0x62
-#define STEPS_RESET 0x64
+#define PEDOMETER_INIT   0x66
+#define STEPS_COUNT      0x62
+#define STEPS_RESET      0x64
 
 #define I2C_NODE DT_NODELABEL(imu)
 static const struct i2c_dt_spec dev_i2c = I2C_DT_SPEC_GET(I2C_NODE);

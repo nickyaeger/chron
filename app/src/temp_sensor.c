@@ -7,17 +7,17 @@
 
 #include "temp_sensor.h"
 
-#define I2C_ADDRESS 0x77
-#define DEVICE_ID 0x60
-#define CTRLMEAS 0xF4
-#define CALIB00	 0x88
-#define CALIB06	 0x8E
-#define CALIB25	 0xA1
-#define CALIB26	 0xE1
-#define ID	     0xD0
-#define TEMPMSB	 0xFA
-#define PRESSMSB 0xF7
-#define HUMMSB	 0xFD
+#define I2C_ADDRESS  0x77
+#define DEVICE_ID    0x60
+#define CTRLMEAS     0xF4
+#define CALIB00	     0x88
+#define CALIB06	     0x8E
+#define CALIB25	     0xA1
+#define CALIB26	     0xE1
+#define ID	         0xD0
+#define TEMPMSB	     0xFA
+#define PRESSMSB     0xF7
+#define HUMMSB	     0xFD
 #define CONFIG_VALUE 0x93
 
 #define I2C_NODE DT_NODELABEL(temp_sense)
@@ -212,23 +212,12 @@ int temp_sensor_init(void) {
         return -1;
     }
 
-    for (int i = 0; i < 8; i++) {
-        LOG_INF("h_values[%d] = %x", i, h_values[i]);
-    }
-
     data.dig_h1 = (uint16_t)h_values[0];
     data.dig_h2 = ((uint16_t)h_values[2]) << 8 | h_values[1];
     data.dig_h3 = (uint16_t)h_values[3];
     data.dig_h4 = ((uint16_t)h_values[4]) << 4 | (h_values[5] & 0x0F);
     data.dig_h5 = ((uint16_t)h_values[6]) << 4 | ((h_values[5] >> 4) & 0x0F);
     data.dig_h6 = (uint8_t)h_values[7];
-
-    LOG_INF("data.dig_h1 = %x", data.dig_h1);
-    LOG_INF("data.dig_h2 = %x", data.dig_h2);
-    LOG_INF("data.dig_h3 = %x", data.dig_h3);
-    LOG_INF("data.dig_h4 = %x", data.dig_h4);
-    LOG_INF("data.dig_h5 = %x", data.dig_h5);
-    LOG_INF("data.dig_h6 = %x", data.dig_h6);
 
     /* Configure sensor */
     uint8_t sensor_config[] = {CTRLMEAS, CONFIG_VALUE};

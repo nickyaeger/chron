@@ -3,9 +3,10 @@
 #include <zephyr/drivers/gpio.h>
 
 #include "gpio.h"
-#include "imu.h"
 #include "page.h"
+#include "imu.h"
 #include "temp_sensor.h"
+#include "hr_sensor.h"
 
 /* Register with logger module */
 #ifdef CONFIG_DBG_PRINT

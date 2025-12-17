@@ -40,4 +40,9 @@
 		compatible = "bosch,bme280";
 		reg = <0x77>;
 	};
+
+	hr_sense: max30102@ae {
+		compatible = "maxim,max30101";
+		reg = <0xae>;
+	};
 };
