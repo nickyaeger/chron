@@ -4,6 +4,7 @@
 
 #include "gpio.h"
 #include "page.h"
+#include "pages/timer.h"
 #include "imu.h"
 #include "temp_sensor.h"
 #include "hr_sensor.h"
@@ -19,6 +20,7 @@
 int main(void) {
     LOG_INF("Starting main routine");
     gpio_init();
+    timer_init();
     ui_init();
     imu_init();
     temp_sensor_init();

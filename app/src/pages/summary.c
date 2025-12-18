@@ -5,6 +5,7 @@
 #include "summary.h"
 #include "home.h"
 #include "settings.h"
+#include "timer.h"
 #include "activity.h"
 #include "climate.h"
 
@@ -19,7 +20,7 @@ ui_page_t summary = { .on_enter = on_enter, .on_exit = NULL, .handle_input = sum
 /* Currently selected preview in carousel */
 static int selected_view = SETTINGS_VIEW;
 /* Number of previews */
-#define NUM_VIEWS 3
+#define NUM_VIEWS 4
 
 /* Register with logger module */
 #ifdef CONFIG_DBG_PRINT
@@ -32,6 +33,9 @@ static void on_enter(void) {
     switch (selected_view) {
         case SETTINGS_VIEW:
             LOG_DBG("Current page: SETTINGS_VIEW");
+            break;
+        case TIMER_VIEW:
+            LOG_DBG("Current page: TIMER_VIEW");
             break;
         case ACTIVITY_VIEW:
             LOG_DBG("Current page: ACTIVITY_VIEW");
@@ -72,6 +76,9 @@ static void summary_input(ui_button_t button) {
             switch (selected_view) {
                 case SETTINGS_VIEW:
                     ui_push(&settings);
+                    break;
+                case TIMER_VIEW:
+                    ui_push(&timer);
                     break;
                 case ACTIVITY_VIEW:
                     ui_push(&activity);
